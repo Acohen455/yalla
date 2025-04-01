@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -26,10 +27,14 @@ public class Orders {
     @Column(nullable = false, columnDefinition = "TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP")
     private OffsetDateTime timestamp;
 
-
     //this is for the order_items join table
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private List<OrderItems> orderItems;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private List<Transactions> transactions;
 
 
 
@@ -81,6 +86,24 @@ public class Orders {
     }
 
     //getters and setters
+
+
+    public List<OrderItems> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItems> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public List<Transactions> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transactions> transactions) {
+        this.transactions = transactions;
+    }
+
     public UUID getOrderId() {
         return orderId;
     }

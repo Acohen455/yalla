@@ -1,0 +1,47 @@
+package com.yalla.yalla_backend.models;
+
+import jakarta.persistence.*;
+
+import java.util.UUID;
+
+public class OrderItems {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID orderItemId;
+
+    @Column(nullable = false)
+    private UUID orderId;
+
+    @Column(nullable = false)
+    private UUID itemId;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Float priceAtTimeOfOrder;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Orders order;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Items item;
+
+
+    //constructors
+    public OrderItems() {}
+
+    public OrderItems(UUID orderItemId, UUID orderId, UUID itemId, Integer quantity, Float priceAtTimeOfOrder) {
+        this.orderItemId = orderItemId;
+        this.orderId = orderId;
+        this.itemId = itemId;
+        this.quantity = quantity;
+        this.priceAtTimeOfOrder = priceAtTimeOfOrder;
+    }
+
+    //getters and setters
+    
+}
