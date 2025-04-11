@@ -25,16 +25,15 @@ public class Items {
     @Column(nullable = false)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<VendorItem> vendorItems = new HashSet<>;
 
 
     //adding helper method
-    public void addVendorItem(Vendors vendor, Float vendorPrice, Integer stockQuantity){
-        VendorItem vendorItem = new VendorItem(vendor, this, vendorPrice, stockQuantity);
-        vendorItems.add(vendorItem);
-        //TODO: Add this function in vendor
-        vendor.getVendorItems().add(vendorItem);
+    //TODO: make sure this lines up
+    //!!! MOVING SYNC INTO THE VENDOR ITEM CLASS
+    public void addVendorItem(Vendor vendor, Float vendorPrice, Integer stockQuantity){
+        new VendorItem(vendor, this, vendorPrice, stockQuantity);
     }
 
     //structs
@@ -95,9 +94,6 @@ public class Items {
         return vendorItems;
     }
 
-    public void setVendorItems(Set<VendorItem> vendorItems) {
-        this.vendorItems = vendorItems;
-    }
 
     //toString
     @Override
