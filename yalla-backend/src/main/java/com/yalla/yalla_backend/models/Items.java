@@ -26,7 +26,7 @@ public class Items {
     private String imageUrl;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<VendorItem> vendorItems = new HashSet<>;
+    private Set<VendorItem> vendorItems = new HashSet<>();
 
 
     //adding helper method

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
+@Entity
+@Table(name = "transactions")
 public class Transactions {
 
     @Id
@@ -15,7 +17,7 @@ public class Transactions {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    private UUID itemId;
+    private Items item;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -29,10 +31,10 @@ public class Transactions {
     public Transactions() {
     }
 
-    public Transactions(UUID transactionId, Integer amount, UUID itemId, Integer quantity, Orders order) {
+    public Transactions(UUID transactionId, Integer amount, Items item, Integer quantity, Orders order) {
         this.transactionId = transactionId;
         this.amount = amount;
-        this.itemId = itemId;
+        this.item = item;
         this.quantity = quantity;
         this.order = order;
     }
@@ -57,11 +59,11 @@ public class Transactions {
     }
 
     public UUID getItemId() {
-        return itemId;
+        return item.getItemId();
     }
 
     public void setItemId(UUID itemId) {
-        this.itemId = itemId;
+        this.item.setItemId(itemId);
     }
 
     public Integer getQuantity() {
@@ -87,7 +89,7 @@ public class Transactions {
         return "Transactions{" +
                 "transactionId=" + transactionId +
                 ", amount=" + amount +
-                ", itemId=" + itemId +
+                ", itemId=" + item.getItemId()+
                 ", quantity=" + quantity +
                 ", order=" + order +
                 '}';

@@ -29,11 +29,9 @@ public class Orders {
 
     //this is for the order_items join table
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
     private List<OrderItems> orderItems;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
     private List<Transactions> transactions;
 
 
