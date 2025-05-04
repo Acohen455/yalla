@@ -33,15 +33,26 @@ public class Vendor {
     @Column(nullable = false)
     private String vendorPassword;
 
+    @Column(nullable = false)
+    private String vendorImageUrl;
+
+    @Column(nullable = false)
+    private String vendorBannerUrl;
+
+    @Column(nullable = false)
+    private String vendorUsername;
+
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<VendorItem> vendorItems = new ArrayList<>();
 
 
 
     //structs
+    //empty
     public Vendor() {
     }
 
+    //no login info or images
     public Vendor(String name, String location, String vendorEmail, String vendorPhone, List<VendorItem> vendorItems) {
         this.name = name;
         this.location = location;
@@ -50,7 +61,9 @@ public class Vendor {
         this.vendorItems = vendorItems;
     }
 
-    public Vendor(UUID vendorId, String name, String location, String vendorEmail, String vendorPhone, String vendorDescription, String vendorPassword, List<VendorItem> vendorItems) {
+    //all args minus images
+    public Vendor(UUID vendorId, String name, String location, String vendorEmail, String vendorPhone, String vendorDescription, String vendorPassword,
+                  String vendorUsername, List<VendorItem> vendorItems) {
         this.vendorId = vendorId;
         this.name = name;
         this.location = location;
@@ -58,6 +71,24 @@ public class Vendor {
         this.vendorPhone = vendorPhone;
         this.vendorDescription = vendorDescription;
         this.vendorPassword = vendorPassword;
+        this.vendorItems = vendorItems;
+        this.vendorUsername = vendorUsername;
+    }
+
+    //struct for all args including images
+    public Vendor(UUID vendorId, String name, String location, String vendorEmail, String vendorPhone,
+                  String vendorDescription, String vendorPassword, String vendorImageUrl, String vendorBannerUrl,
+                  String vendorUsername, List<VendorItem> vendorItems) {
+        this.vendorId = vendorId;
+        this.name = name;
+        this.location = location;
+        this.vendorEmail = vendorEmail;
+        this.vendorPhone = vendorPhone;
+        this.vendorDescription = vendorDescription;
+        this.vendorPassword = vendorPassword;
+        this.vendorImageUrl = vendorImageUrl;
+        this.vendorBannerUrl = vendorBannerUrl;
+        this.vendorUsername = vendorUsername;
         this.vendorItems = vendorItems;
     }
 
@@ -126,6 +157,30 @@ public class Vendor {
 
     public void setVendorItems(List<VendorItem> vendorItems) {
         this.vendorItems = vendorItems;
+    }
+
+    public String getVendorImageUrl() {
+        return vendorImageUrl;
+    }
+
+    public void setVendorImageUrl(String vendorImageUrl) {
+        this.vendorImageUrl = vendorImageUrl;
+    }
+
+    public String getVendorBannerUrl() {
+        return vendorBannerUrl;
+    }
+
+    public void setVendorBannerUrl(String vendorBannerUrl) {
+        this.vendorBannerUrl = vendorBannerUrl;
+    }
+
+    public String getVendorUsername() {
+        return vendorUsername;
+    }
+
+    public void setVendorUsername(String vendorUsername) {
+        this.vendorUsername = vendorUsername;
     }
 
     //sync method
