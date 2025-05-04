@@ -30,6 +30,8 @@ public class Vendor {
     @Column(nullable = false)
     private String vendorDescription;
 
+
+    //TODO: Add password encryption/security
     @Column(nullable = false)
     private String vendorPassword;
 

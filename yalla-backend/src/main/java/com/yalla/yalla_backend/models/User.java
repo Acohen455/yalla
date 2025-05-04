@@ -26,6 +26,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
 
+    //TODO: Add password encryption/security
     @Column(nullable = false)
     private String password;
 
