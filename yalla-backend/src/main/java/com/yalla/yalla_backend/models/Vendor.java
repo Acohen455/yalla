@@ -27,6 +27,12 @@ public class Vendor {
     @Column(nullable = false)
     private String vendorPhone;
 
+    @Column(nullable = false)
+    private String vendorDescription;
+
+    @Column(nullable = false)
+    private String vendorPassword;
+
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<VendorItem> vendorItems = new ArrayList<>();
 
@@ -41,6 +47,17 @@ public class Vendor {
         this.location = location;
         this.vendorEmail = vendorEmail;
         this.vendorPhone = vendorPhone;
+        this.vendorItems = vendorItems;
+    }
+
+    public Vendor(UUID vendorId, String name, String location, String vendorEmail, String vendorPhone, String vendorDescription, String vendorPassword, List<VendorItem> vendorItems) {
+        this.vendorId = vendorId;
+        this.name = name;
+        this.location = location;
+        this.vendorEmail = vendorEmail;
+        this.vendorPhone = vendorPhone;
+        this.vendorDescription = vendorDescription;
+        this.vendorPassword = vendorPassword;
         this.vendorItems = vendorItems;
     }
 
@@ -91,6 +108,25 @@ public class Vendor {
         return vendorItems;
     }
 
+    public String getVendorDescription() {
+        return vendorDescription;
+    }
+
+    public void setVendorDescription(String vendorDescription) {
+        this.vendorDescription = vendorDescription;
+    }
+
+    public String getVendorPassword() {
+        return vendorPassword;
+    }
+
+    public void setVendorPassword(String vendorPassword) {
+        this.vendorPassword = vendorPassword;
+    }
+
+    public void setVendorItems(List<VendorItem> vendorItems) {
+        this.vendorItems = vendorItems;
+    }
 
     //sync method
     //This should be used instead of the setters and getters for vendor items
