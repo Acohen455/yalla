@@ -1,0 +1,4 @@
+package com.yalla.yalla_backend.DAOs;
+
+public interface VendorItemDAO extends JpaRepository<VendorItem, UUID> {
+}
