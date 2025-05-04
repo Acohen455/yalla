@@ -9,13 +9,13 @@ import java.util.List;
 //dto for secure data transmission -- ie. leave out password
 public class UserDTO {
 
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String role;
-    private List<Address> addresses;
-    private List<Orders> orders;
+    public String username;
+    public String firstName;
+    public String lastName;
+    public String email;
+    public String role;
+    public List<Address> addresses;
+    public List<Orders> orders;
 
 
     //structs
