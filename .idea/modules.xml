@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/yalla.iml" filepath="$PROJECT_DIR$/.idea/yalla.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yalla-backend/yalla-backend.iml" filepath="$PROJECT_DIR$/yalla-backend/yalla-backend.iml" />
     </modules>
   </component>
 </project>
