@@ -1,6 +1,7 @@
 package com.yalla.yalla_backend.models;
 
 
+import com.yalla.yalla_backend.interfaces.AppUserDetails;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Component
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails, AppUserDetails {
 
 
     //set up table fields
@@ -105,6 +106,7 @@ public class User implements UserDetails {
         this.addresses = addresses;
     }
 
+    @Override
     public UUID getUserId() {
         return userId;
     }
@@ -155,6 +157,8 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+
+    @Override
     public String getRole() {
         return role;
     }
@@ -164,25 +168,26 @@ public class User implements UserDetails {
     }
 
 
+
     //!!! UserDetails Overrides
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return AppUserDetails.super.isAccountNonExpired();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return AppUserDetails.super.isAccountNonLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return AppUserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return AppUserDetails.super.isEnabled();
     }
 
     @Override
