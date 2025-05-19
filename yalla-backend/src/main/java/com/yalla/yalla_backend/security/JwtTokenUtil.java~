@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.UUID;
 
-//This Util Class is what generates, manages, and validates our JWTs
-//thanks to Ben Petruzziello (github.com/benp3837) for the utility class
+//This Util Class is what generates, manages, and validates our JWTs -- thanks to Ben Petruzziello  for the utility class
 //JWT (JSON Web Token) is a stateless security token
 //We will set up our app so that the user cannot do anything besides login/register w/o  a valid JWT
 @Component

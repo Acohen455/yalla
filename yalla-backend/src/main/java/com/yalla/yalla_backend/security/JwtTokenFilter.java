@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 //This class is for making sure server requests have a JWT
+//thanks to Ben Petruzziello (github.com/benp3837) for the utility class
 
 //this class is a filter that runs for ever http request and checks if the incoming request has a valid JWT
 @Component //onceperrequest filter makes it execute a single time per request
