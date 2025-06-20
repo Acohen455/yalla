@@ -6,6 +6,7 @@ package com.yalla.yalla_backend.security;
 
 import com.yalla.yalla_backend.interfaces.AppUserDetails;
 import com.yalla.yalla_backend.models.User;
+import com.yalla.yalla_backend.models.Vendor;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -108,14 +109,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     //using the interface so this works for both users and vendors
     private AppUserDetails getUserDetails(String token){
-        User userDetails = new User();
+        String role = jwtUtil.extractRole(token);
 
-        //use the extractor methods we wrote in JwtTokenUtil to get the userId and username
-        userDetails.setUserId(jwtUtil.extractUserId(token));
-        userDetails.setUsername(jwtUtil.extractUsername(token));
-        userDetails.setRole(jwtUtil.extractRole(token));
-
-        return userDetails;
+        if ("VENDOR".equals(role)){
+            Vendor vendor = new Vendor();
+            vendor.setVendorId(jwtUtil.extractUserId(token));
+            vendor.setVendorUsername(jwtUtil.extractUsername(token));
+            return vendor;
+        } else {
+            User user = new User();
+            user.setUserId(jwtUtil.extractUserId(token));
+            user.setUsername(jwtUtil.extractUsername(token));
+            user.setRole(role);
+            return user;
+        }
     }
 
 }

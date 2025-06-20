@@ -2,8 +2,11 @@ package com.yalla.yalla_backend.models;
 
 import com.yalla.yalla_backend.interfaces.AppUserDetails;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,6 +107,23 @@ public class Vendor  implements AppUserDetails {
     //if user id is requested, returns vendor ID
     //TODO: check if vendor needs a seperate user ID
     public UUID getUserId() { return getVendorId();}
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(getRole()));
+    }
+
+    //dummy method that calls the actual method
+    //this just makes the implementation work
+    //is this best practice? errrrrrr.... probably not, but it isn't broken? yet?
+    public String getPassword() {
+        return getVendorPassword();
+    }
+
+    //another dummy method to make naming conventions align
+    public String getUsername() {
+        return getVendorUsername();
+    }
 
     //!!END OF APPUSERDETAILS GETTERS AND SETTERS
 
