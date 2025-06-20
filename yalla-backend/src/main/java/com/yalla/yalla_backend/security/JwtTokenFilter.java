@@ -4,6 +4,7 @@ package com.yalla.yalla_backend.security;
 
 //setting up token filters for security
 
+import com.yalla.yalla_backend.interfaces.AppUserDetails;
 import com.yalla.yalla_backend.models.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -60,18 +61,21 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     //it then creates an auth object with these details and sets it in the security context
     //this allows spring to determine who the user is and what privileges they have
     private void setAuthenticationContext(String token, HttpServletRequest request){
-        //TODO: Figure out how to adapt this to work for both users and vendors
-        //for now making a user only mockup
-        User user = (User) getUserDetails(token);
+        //TODO: Figure out how to adapt this to work for both users and vendors]
+        //TODO: Add a discriminator for user/vendor with a polymorphic getUserDetails function
+        //!! This SHOULD work for both users and vendors
+        AppUserDetails user = getUserDetails(token);
 
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
 
+        //token already authenticates credentials, so we can use null here for creds
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 user,
                 null,
                 authorities
         );
 
+        //this sets the info in the auth token
         auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         //tell spring who the user is and what their role is
@@ -102,7 +106,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 
 
-    private UserDetails getUserDetails(String token){
+    //using the interface so this works for both users and vendors
+    private AppUserDetails getUserDetails(String token){
         User userDetails = new User();
 
         //use the extractor methods we wrote in JwtTokenUtil to get the userId and username
@@ -111,7 +116,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         userDetails.setRole(jwtUtil.extractRole(token));
 
         return userDetails;
-
     }
 
 }

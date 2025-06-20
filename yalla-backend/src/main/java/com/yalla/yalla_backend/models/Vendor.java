@@ -1,5 +1,6 @@
 package com.yalla.yalla_backend.models;
 
+import com.yalla.yalla_backend.interfaces.AppUserDetails;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "vendors")
-public class Vendor {
+public class Vendor  implements AppUserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -96,6 +97,15 @@ public class Vendor {
 
     //getters and setters
 
+//!! THESE ARE THE GETTERS AND SETTERS TO MAKE IMPLEMENTATION OF APPUSERDETAILS WORK
+    //returns vendor for role
+    public String getRole() { return "VENDOR"; }
+
+    //if user id is requested, returns vendor ID
+    //TODO: check if vendor needs a seperate user ID
+    public UUID getUserId() { return getVendorId();}
+
+    //!!END OF APPUSERDETAILS GETTERS AND SETTERS
 
     public UUID getVendorId() {
         return vendorId;
