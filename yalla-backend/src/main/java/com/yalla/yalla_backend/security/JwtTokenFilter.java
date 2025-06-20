@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ import java.util.List;
 //This class is for making sure server requests have a JWT
 //thanks to Ben Petruzziello (github.com/benp3837) for the utility class
 
-//this class is a filter that runs for ever http request and checks if the incoming request has a valid JWT
+//this class is a filter that runs for every http request and checks if the incoming request has a valid JWT
 @Component //onceperrequest filter makes it execute a single time per request
 public class JwtTokenFilter extends OncePerRequestFilter {
 
@@ -39,11 +40,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     /* This method gets called when requests come in, and checks if the request has a valid JWT in the header.*/
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
             throws ServletException, IOException {
 
         //If the header doesnt contain a bearer token
         //run the filter without doing anything else (request will be failed later if JWT needed)
+        if (!hasAuthorizationBearer(request)){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
 
 
@@ -71,6 +78,28 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         //this gets stored in the auth object above
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
+
+
+    //method for checking auth header in http requests to see if they have JWT
+    private boolean hasAuthorizationBearer(HttpServletRequest request){
+        String authorization = request.getHeader("Authorization");
+        if (ObjectUtils.isEmpty(authorization) || !authorization.startsWith("Bearer ")){
+            return false;
+        }
+        return true;
+    }
+
+    //method for extracting JWT from header
+    //this has to occur before we can actually check the header
+    private String getAccessToken(HttpServletRequest request){
+        String header = request.getHeader("Authorization");
+        //auth header looks like this: "Bearer: {your.jwt.here}"
+        //this splits along whitespace, then selects the second part of the array -- the part after Bearer:
+        //the last part trims off any extra whitespace
+        String token = header.split(" ")[1].trim();
+        return token;
+    }
+
 
 
     private UserDetails getUserDetails(String token){
