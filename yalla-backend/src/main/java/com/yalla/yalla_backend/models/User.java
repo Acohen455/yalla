@@ -4,6 +4,7 @@ package com.yalla.yalla_backend.models;
 import com.yalla.yalla_backend.interfaces.AppUserDetails;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -158,6 +159,7 @@ public class User implements UserDetails, AppUserDetails {
     }
 
 
+    //!! THIS IS SET UP THIS WAY SO BOTH USERS AND ADMINS WORK WITH THE SAME CONFIG
     @Override
     public String getRole() {
         return role;
@@ -192,7 +194,7 @@ public class User implements UserDetails, AppUserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(getRole()));
     }
 
 
