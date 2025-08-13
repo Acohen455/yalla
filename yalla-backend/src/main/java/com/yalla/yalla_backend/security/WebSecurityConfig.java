@@ -53,7 +53,11 @@ public class WebSecurityConfig {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(username -> {
             UserDetails user = userDAO.findByUsername(username);
-            if (user != null) return user;
+            if (user != null) {
+                return user;
+            } else {
+                throw new UsernameNotFoundException("User " + username + " not found");
+            }
 
             UserDetails vendor = vendorDAO.findByUsername(username);
 
