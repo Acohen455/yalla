@@ -51,19 +51,24 @@ public class WebSecurityConfig {
     //We use the userDAO to find a user by username, or throw an exception
 
     //CAN THIS BE DONE THIS WAY? MIGHT NEED TO MERGE USER AND VENDOR DAOS
+    //Also might have to seperate out vendors and users more
+    //!! treat vendors as a seperate thing entirely from users?
+    //!! This solution works but we HAVE to make sure usernames are unique across these tables
+    //!! DO NOT ALLOW VENDORS TO HAVE IDENTICAL USERNAMES TO USERS
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(username -> {
             UserDetails user = userDAO.findByUsername(username);
             if (user != null) {
                 return user;
-            } else {
-                throw new UsernameNotFoundException("User " + username + " not found");
             }
 
             UserDetails vendor = vendorDAO.findByUsername(username);
+            if (vendor != null) {
+                return vendor;
+            }
 
-
+            throw new UsernameNotFoundException("User " + username + " not found");
         });
     }
 
