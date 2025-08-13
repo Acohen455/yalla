@@ -49,6 +49,8 @@ public class WebSecurityConfig {
 
     //This method configures the authentication manager before trying to log the user in
     //We use the userDAO to find a user by username, or throw an exception
+
+    //CAN THIS BE DONE THIS WAY? MIGHT NEED TO MERGE USER AND VENDOR DAOS
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(username -> {
